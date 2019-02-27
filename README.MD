@@ -1,2 +1,2 @@
 个人博客
-blog.yunwanjia.io
+blog.yunwanjia.iohexo

@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[使用spring security后在页面中无法使用iframe的问题]]></title>
+    <url>%2F2019%2F02%2F28%2Fspring-security-iframe%2F</url>
+    <content type="text"><![CDATA[这个问题的原因是因为security由于安全、性能等问题禁止了iframe的加载，解决办法如下： 1234567891011protected void configure(HttpSecurity http) throws Exception &#123; // 解决无法使用iframe的问题 http.headers() .frameOptions() // 完全允许加载任何地址的页面 //.disable() // 完全禁止，默认就是这 //.deny() // 只允许加载相同域名下的页面 .sameOrigin();&#125; 扩展阅读： frameOptions里到底是设置了什么东西造成的这种结果呢，这个其实是一个服务器的设置：X-Frame-Options 将这个配置放到我们response header中后，就能实现相关的效果。如： 12345678// 实现了同域名下页面的加载X-Frame-Options: SAMEORIGIN// 实现了禁止加载任何页面X-Frame-Options: DENY// 实现了允许所有页面的加载X-Frame-Options: ALLOW-FROM]]></content>
+      <categories>
+        <category>spring security</category>
+      </categories>
+      <tags>
+        <tag>spring security</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[如何给利用Hexo和GitPages搭建博客绑定个人域名]]></title>
     <url>%2F2019%2F02%2F27%2Fhexo-custom-domain%2F</url>
     <content type="text"><![CDATA[本文档不会提供如何入手域名的相关说明，如果有需要请自行搜索 今天没事上 name.com 入手了个域名： yunwanjia.io。 我寻思着放着也是放着，不如将gitPages的域名绑定一下，毕竟裸奔不怎么好。下面我们就来说一下怎么绑定个人域名。 域名解析配置 域名解析配置每个服务商都不一样，这里我提供 name.com 的配置方式 打开 name.com 的域名配置页面，找到 ==DNS记录== 菜单，点击打开。 找到一个右侧空白记录，增加一个 CNAME 的记录。 如下效果： 类型 主机 回答 TTL CNAME blog.yunwanjia.io smile962464.github.io 300 配置好后可能需要等待几分钟才能有效果，需要看提供商的效率了。 等几分钟后我们访问 blog.yunwanjia.io ,发现是gitpages的404页面，这就代表DNS已经配置好了。接下来我们可以说一下GitHub中的配置。 因为一级域名还有其他用处，所以这里使用二级域名。而且 blog 二级域名还是比较直观。 GitHub 配置这里提供两种配置方式，一种是基于原生GitHub setting中的配置进行配置，一种是基于Hexo的配置。 原生配置打开GitHub的博客仓库，如 smile962464.github.io。 打开 Settings 页面，往下翻找到 GitHub Pages 配置的地方，再往下看，找到 Custom domain 配置处，填入个人博客地址。然后点击保存就好了。 hexo配置到hexo目录的source目录下新建一个叫 ==CNAME== 的文件,注意文件名就叫 CNAME, 不是什么CNAME.txt。 文件建好后在里面填上个人博客地址。然后执行下列命令重新部署: 123$ hexo clean$ hexo g$ hexo d 总结其实就是在博客仓库下面新增一个CNAME的文件，然后在里面填上个人博客的地址。。]]></content>

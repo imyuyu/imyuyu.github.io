@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="今天听到了一个高大上的东西：自由变体。我也不知道是啥，搜都搜不到。反正大神说是几种设计模式混合起来然后自己在包装一下。想象自己好久没复习设计模式了，还是复习一下设计模式。  我们大家都知道JAVA大概有20多种设计模式，这里我估计我复习不完，只能捡常用的了。 创建型模式工厂模式这个模式不多说了，用的第二多了吧，在spring的代码中最明显的beanFactory。说理论的不好理解，我说个通俗的理">
+<meta name="keywords" content="java设计模式,JAVA 设计模式,设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="白话文解说java的几种常用设计模式">
+<meta property="og:url" content="https://blog.yunwanjia.io/2019/03/14/java-design-pattern/index.html">
+<meta property="og:site_name" content="Zhengyu&#39;s Blog">
+<meta property="og:description" content="今天听到了一个高大上的东西：自由变体。我也不知道是啥，搜都搜不到。反正大神说是几种设计模式混合起来然后自己在包装一下。想象自己好久没复习设计模式了，还是复习一下设计模式。  我们大家都知道JAVA大概有20多种设计模式，这里我估计我复习不完，只能捡常用的了。 创建型模式工厂模式这个模式不多说了，用的第二多了吧，在spring的代码中最明显的beanFactory。说理论的不好理解，我说个通俗的理">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-03-14T15:52:08.144Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="白话文解说java的几种常用设计模式">
+<meta name="twitter:description" content="今天听到了一个高大上的东西：自由变体。我也不知道是啥，搜都搜不到。反正大神说是几种设计模式混合起来然后自己在包装一下。想象自己好久没复习设计模式了，还是复习一下设计模式。  我们大家都知道JAVA大概有20多种设计模式，这里我估计我复习不完，只能捡常用的了。 创建型模式工厂模式这个模式不多说了，用的第二多了吧，在spring的代码中最明显的beanFactory。说理论的不好理解，我说个通俗的理">
+
+
+
+
+
+
+  <link rel="canonical" href="https://blog.yunwanjia.io/2019/03/14/java-design-pattern/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>白话文解说java的几种常用设计模式 | Zhengyu's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Zhengyu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.yunwanjia.io/2019/03/14/java-design-pattern/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Hu Zhengyu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Zhengyu's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">白话文解说java的几种常用设计模式
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-14 20:49:53 / 修改时间：23:52:08" itemprop="dateCreated datePublished" datetime="2019-03-14T20:49:53+08:00">2019-03-14</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/设计模式/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/03/14/java-design-pattern/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/03/14/java-design-pattern/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>今天听到了一个高大上的东西：自由变体。我也不知道是啥，搜都搜不到。反正大神说是几种设计模式混合起来然后自己在包装一下。想象自己好久没复习设计模式了，还是复习一下设计模式。</p>
+</blockquote>
+<p>我们大家都知道JAVA大概有20多种设计模式，这里我估计我复习不完，只能捡常用的了。</p>
+<h1 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h1><h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>这个模式不多说了，用的第二多了吧，在spring的代码中最明显的beanFactory。说理论的不好理解，我说个通俗的理解。</p>
+<p>假设我们准备开了一个奶制品的工厂，我们预计了要生产【纯牛奶】、【酸奶】、【奶酪】。所以我们在找厂房的时候，就找一个大个的厂房，在里面安装上生产3种产品的设备。这样我们厂房就建好了，接下来就是采购商需要啥，我们就给他生产啥，因为我们全都有。就类似下面这样<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 奶制品</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Dairy</span></span>&#123;&#125;</span><br><span class="line"><span class="comment">// 纯牛奶</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Milk</span> <span class="keyword">implements</span> <span class="title">Dairy</span></span>&#123;&#125;</span><br><span class="line"><span class="comment">// 酸奶</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Yogurt</span> <span class="keyword">implements</span> <span class="title">Dairy</span></span>&#123;&#125;</span><br><span class="line"><span class="comment">// 奶酪</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cheese</span> <span class="keyword">implements</span> <span class="title">Dairy</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们的工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyFactory</span></span>&#123;</span><br><span class="line">    <span class="comment">// 提供商品</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dairy <span class="title">get</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        Dairy dairy;</span><br><span class="line">        <span class="keyword">switch</span>(name)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Milk"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> Milk();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Yogurt"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> Yogurt();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Cheese"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> Cheese();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.err.println(<span class="string">"我们不生产这个东西！"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 采购商，他的直接对象只有工厂。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Purchaser</span></span>&#123;</span><br><span class="line">    <span class="comment">// 获取纯牛奶</span></span><br><span class="line">    Dairy dairy = MyFactory.get(<span class="string">"Milk"</span>)</span><br><span class="line">    <span class="comment">// 获取酸奶</span></span><br><span class="line">    Dairy dairy = MyFactory.get(<span class="string">"Yogurt"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>采购商根本不关注我是怎么生产的，他只需要告诉我们工厂，我需要牛奶或是酸奶。</p>
+</blockquote>
+<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><p>通过我们对工厂模式的了解，我们知道工厂模式在前期的投入非常大，即我们需要同时采购【纯牛奶】、【酸奶】、【奶酪】这3条生产线，那对我们这种穷逼来说压力太大了，有没有什么办法可以减轻这个压力呢？那就是抽象工厂模式。</p>
+<p>假设我们目前只有买【纯牛奶】生产线的钱，但是我们又想做【酸奶】、【奶酪】怎么办呢？哈！聪明的你可能想到了，我们可以先开一间生产【纯牛奶】厂，等挣到大钱了再开生产【酸奶】、【奶酪】的厂，就像下面这样：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 奶制品工厂</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在穷，只有先开【纯牛奶】厂了。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkFactory</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Milk();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象的工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 提供商品，太穷了，暂时只提供纯牛奶</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dairy <span class="title">get</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        Dairy dairy;</span><br><span class="line">        <span class="keyword">switch</span>(name)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Milk"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> MilkFactory().get();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.err.println(<span class="string">"我们不生产这个东西！"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>哈哈哈，劳资挣大钱了，再开两个厂<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 新开的酸奶厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">YogurtFactory</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Yogurt();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 新开的奶酪厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CheeseFactory</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Cheese();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象的工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 提供商品，现在可以提供酸奶和奶酪了</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dairy <span class="title">get</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        Dairy dairy;</span><br><span class="line">        <span class="keyword">switch</span>(name)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Milk"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> MilkFactory().get();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Yogurt"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> YogurtFactory().get();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Cheese"</span>:</span><br><span class="line">                dairy = <span class="keyword">new</span> CheeseFactory().get();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.err.println(<span class="string">"我们不生产这个东西！"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h2><p>顾名思义啊，就是只有一个（就是单身的意思）。</p>
+<p>通过以上工厂模式的代码我们发现，每次有采购商来采购都会开一个新的工厂(new DairyFactory())，那肯定不行啊，那哪有那么多钱。所以我们要精益求精（穷），开一个厂服务所有人。就像下面这样：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MilkFactory</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 不允许在外面建厂了</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">MilkFactory</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 就建一个工厂</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> MilkFactory milkFactory = <span class="keyword">new</span> MilkFactory();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 得到工厂</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> MilkFactory <span class="title">getFactory</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> milkFactory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Milk();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 抽象的工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 提供商品</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Dairy <span class="title">get</span><span class="params">(String name)</span></span>&#123;</span><br><span class="line">        Dairy dairy;</span><br><span class="line">        <span class="keyword">switch</span>(name)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">"Milk"</span>:</span><br><span class="line">                <span class="comment">// 每次都从同一个厂取货</span></span><br><span class="line">                dairy = MilkFactory.getFactory().get();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                System.err.println(<span class="string">"我们不生产这个东西！"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意此处使用了饿汉模式（我建了厂就一定有人来买，就是这么自信），至于懒汉模式(我也不知道有没有人要来买，有人买的时候再建厂吧。)请自行查阅。</p>
+</blockquote>
+<h2 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h2><p>我们不是搞了个【纯牛奶】厂么，大家知道纯牛奶是有包装盒的，那我们在生产一个包装盒的时候一定要等待牛奶先制好么，那肯定不行，那效率多低啊是吧。所以我们就可以先造盒子，就像下面这种：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 盒装牛奶</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Milk</span> <span class="keyword">implements</span> <span class="title">Dairy</span></span>&#123;</span><br><span class="line">    <span class="comment">// 包装盒</span></span><br><span class="line">    <span class="keyword">private</span> String pkg;</span><br><span class="line">    <span class="comment">// 吸管</span></span><br><span class="line">    <span class="keyword">private</span> String straw;</span><br><span class="line">    <span class="comment">// 牛奶</span></span><br><span class="line">    <span class="keyword">private</span> String milk;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Milk</span><span class="params">(MilkBuilder builder)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pkg = builder.getPkg();</span><br><span class="line">        <span class="keyword">this</span>.straw = builder.getStraw();</span><br><span class="line">        <span class="keyword">this</span>.milk = builder.getMilk();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 盒装牛奶组装线</span></span><br><span class="line"><span class="keyword">public</span> MilkBuilder&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 包装盒</span></span><br><span class="line">    <span class="keyword">private</span> String pkg;</span><br><span class="line">    <span class="comment">// 吸管</span></span><br><span class="line">    <span class="keyword">private</span> String straw;</span><br><span class="line">    <span class="comment">// 牛奶</span></span><br><span class="line">    <span class="keyword">private</span> String milk;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MilkBuilder <span class="title">setPkg</span><span class="params">(String pkg)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.pkg = pkg</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MilkBuilder <span class="title">setStraw</span><span class="params">(String straw)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.straw = straw</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MilkBuilder <span class="title">setMilk</span><span class="params">(String milk)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.milk = milk</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPkg</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> pkg&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStraw</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> straw&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMilk</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> milk&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构建 牛奶</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Milk <span class="title">build</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Milk(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 牛奶工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkFactory</span>()</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 只有包装盒</span></span><br><span class="line">        Milk milk = <span class="keyword">new</span> MilkBuilder().setPkg(<span class="string">"全新包装"</span>).build();</span><br><span class="line">        <span class="comment">// 有包装和吸管</span></span><br><span class="line">        Milk milk = <span class="keyword">new</span> MilkBuilder().setPkg(<span class="string">"全新包装"</span>).setStraw(<span class="string">"全新吸管"</span>).build();</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> milk;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>不知道大家发现没有，其实就是个链式操作，不用建造者模式一样能达成，比如下面这样<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 盒装牛奶</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Milk</span> <span class="keyword">implements</span> <span class="title">Dairy</span></span>&#123;</span><br><span class="line">        <span class="comment">// 包装盒</span></span><br><span class="line">        <span class="keyword">private</span> String pkg;</span><br><span class="line">        <span class="comment">// 吸管</span></span><br><span class="line">        <span class="keyword">private</span> String straw;</span><br><span class="line">        <span class="comment">// 牛奶</span></span><br><span class="line">        <span class="keyword">private</span> String milk;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Milk</span><span class="params">()</span></span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">         <span class="function"><span class="keyword">public</span> Milk <span class="title">setPkg</span><span class="params">(String pkg)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.pkg = pkg</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Milk <span class="title">setStraw</span><span class="params">(String straw)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.straw = straw</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Milk <span class="title">setMilk</span><span class="params">(String milk)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.milk = milk</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 牛奶工厂</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">MilkFactory</span>()</span>&#123;</span><br><span class="line">    </span><br><span class="line">        <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="comment">// 只有包装盒</span></span><br><span class="line">            Milk milk = <span class="keyword">new</span> Milk().setPkg(<span class="string">"全新包装"</span>);</span><br><span class="line">            <span class="comment">// 有包装和吸管</span></span><br><span class="line">            Milk milk = <span class="keyword">new</span> Milk().setPkg(<span class="string">"全新包装"</span>).setStraw(<span class="string">"全新吸管"</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">return</span> milk;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>是不是感觉差不多拉，哈哈哈。</p>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><p>其实就是克隆一个出来。就像我们牛奶厂的包装盒，每一个版本都有一个模板，后面生产的所有包装盒，都是根据这个模板来的，只是打印上去的生产日期不一样。如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 初版包装盒</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkBox</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>&#123;</span><br><span class="line">    Date createDate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">getCreateDate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> createDate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCreateDate</span><span class="params">(Date createDate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.createDate = createDate;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Object <span class="title">clone</span><span class="params">()</span>   </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">super</span>.clone();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (CloneNotSupportedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkFactory</span>()</span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        MilkBox temp = <span class="keyword">new</span> MilkBox();</span><br><span class="line">        <span class="comment">// 都是使用模板生产</span></span><br><span class="line">        MilkBox box1 = (MilkBox)temp.clone();</span><br><span class="line">        MilkBox box2 = (MilkBox)temp.clone();</span><br><span class="line">        <span class="comment">// box1 先生产，不同的生产日期</span></span><br><span class="line">        box1.setCreateDate(date1);</span><br><span class="line">        box2.setCreateDate(date2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h1><h2 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h2><p>适配器模式就是在原来的类上提供新的功能。假设我们现在需要生产【奶糖】,那我们有几种做法呢？无法以下几种：</p>
+<ul>
+<li>扩建厂房，增加生产线</li>
+<li>增加新的厂房，原材料从老厂房拿</li>
+<li>增加新的厂房，原材料自己购买</li>
+</ul>
+<p>从上到下依次对应我们的：</p>
+<ul>
+<li>类适配</li>
+<li>对象适配</li>
+<li>接口适配</li>
+</ul>
+<p>以下是【奶糖】的定义</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 高钙奶</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Toffee</span> <span class="keyword">implements</span> <span class="title">Dairy</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 可通过纯牛奶制作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Toffee</span><span class="params">(Milk milk)</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 高钙奶生产线定义</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ToffeeLine</span></span>&#123;</span><br><span class="line">     <span class="function">Toffee <span class="title">getToffee</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类适配"><a href="#类适配" class="headerlink" title="类适配"></a>类适配</h3><p>扩大厂房规模，增加生产线<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 扩大规模后的工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BigFactory</span> <span class="keyword">extends</span> <span class="title">MilkFactory</span> <span class="keyword">implements</span> <span class="title">ToffeeLine</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 拥有新的生产线，用于生产高钙奶，同时也能生产纯牛奶</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Toffee <span class="title">getToffee</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// get()即获取纯牛奶</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Toffee(get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="对象适配"><a href="#对象适配" class="headerlink" title="对象适配"></a>对象适配</h3><p>开新厂，原材料从老厂拿<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 新创建的工厂</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToffeeFactory</span> <span class="keyword">implements</span> <span class="title">ToffeeLine</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MilkFactory milkFactory;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 拥有新的生产线，用于生产高钙奶</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Toffee <span class="title">getToffee</span><span class="params">()</span></span>&#123;</span><br><span class="line">         <span class="comment">// 从牛奶厂获取牛奶</span></span><br><span class="line">        Milk milk = milkFactory.get();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Toffee(milk);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="接口适配"><a href="#接口适配" class="headerlink" title="接口适配"></a>接口适配</h3><p>这个和上面不一样，这个不容易解释。这么说吧，就是我开一个新厂，我只想让你知道我这个厂是生产【奶糖】的。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 注册一个皮包公司，说自己是乳制品公司，其实要生产汽车</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生产乳制品</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 虽然母公司能生产乳制品，但是我们厂不生产，但是我们又要挂母公司的名头（参考蚂蚁金融和阿里巴巴）</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生产奶糖</span></span><br><span class="line">    <span class="function">Toffee <span class="title">getToffee</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注册新厂房</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToffeeFactory</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span></span>&#123;</span><br><span class="line">    <span class="comment">// 生产奶糖</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Toffee <span class="title">getToffee</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>这个大家想象一下雅马哈，他啥都能做，做摩托车，做钢琴，做家具。。但是你肯定不能在雅马哈摩托车厂买到雅马哈家具。</p>
+</blockquote>
+<h2 id="装饰模式"><a href="#装饰模式" class="headerlink" title="装饰模式"></a>装饰模式</h2><p>其实就是增加功能，假设我们要给牛奶厂增加质量检测环节，那质量检测部肯定不需要知道你纯牛奶是如何生产出来的，所以就有一下操作：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkFactoryDecorator</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注意此处是传进入的</span></span><br><span class="line">    <span class="keyword">private</span> DairyFactory dairyFactory;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">testing</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"质量检测"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Dairy d = dairyFactory.get();</span><br><span class="line">        <span class="comment">// 执行检测</span></span><br><span class="line">        <span class="keyword">if</span>(testing(d))&#123;</span><br><span class="line">            <span class="keyword">return</span> d;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p>我们当年建厂的时候没钱，属于小作坊啥也没有，也不规范，那我们现在有钱了，想加强一下生产过程的规范该如何做呢，比如生产前校验车间的温度，生产后校验质量。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 代理</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkFactoryProxy</span> <span class="keyword">implements</span> <span class="title">DairyFactory</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 生产工厂</span></span><br><span class="line">    <span class="keyword">private</span> MilkFactory milkFactory = <span class="keyword">new</span> MilkFactory();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">before</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"温度检测"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">after</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"质量检测"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function">Dairy <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">// 执行检测</span></span><br><span class="line">        <span class="keyword">if</span>(!before(d))&#123;</span><br><span class="line">            System.out.println(<span class="string">"温度不达标，停止生产"</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Dairy d = milkFactory.get();</span><br><span class="line">        <span class="comment">// 执行检测</span></span><br><span class="line">        <span class="keyword">if</span>(after(d))&#123;</span><br><span class="line">            <span class="keyword">return</span> d;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> 晃眼一看感觉装饰者模式和代理模式差不多。。。唯一不同的就是装饰者模式中的源对象是调用者传进去的，而代理模式中的源对象是自己new出来的。</p>
+<blockquote>
+<p>spring 算是把代理模式玩的炉火纯青了吧。。</p>
+</blockquote>
+<h2 id="外观模式"><a href="#外观模式" class="headerlink" title="外观模式"></a>外观模式</h2><p> 大家知道我们工厂里面不仅有灯，还有风扇，空调等很多东西，我们下班的时候不想一个一个关，怎么办呢，我们直接关总闸：<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 开关</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ElectricSwitch</span></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 电灯</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lamp</span> <span class="keyword">implements</span> <span class="title">ElectricSwitch</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 风扇</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fan</span> <span class="keyword">implements</span> <span class="title">ElectricSwitch</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>&#123;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 总闸</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainSwitch</span> <span class="keyword">implements</span> <span class="title">ElectricSwitch</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Lamp lamp;</span><br><span class="line">    <span class="keyword">private</span> Fan fan;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> MainSwitch&#123;</span><br><span class="line">        lamp = <span class="keyword">new</span> Lamp();</span><br><span class="line">        fan = <span class="keyword">new</span> Fan();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 开总闸，风扇和电灯都打开</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;</span><br><span class="line">        lamp.start();</span><br><span class="line">        fan.start();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 关总闸，风扇和电灯都关闭</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>&#123;</span><br><span class="line">        lamp.stop();</span><br><span class="line">        fan.stop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="行为型模式"><a href="#行为型模式" class="headerlink" title="行为型模式"></a>行为型模式</h1><h2 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h2><p>我们知道生产的牛奶会有很多细菌，而且细菌有很多种杀菌模式，那如果我们某一次生产的细菌是使用的其他杀菌模式改怎么操作呢？<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">// 消毒柜</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DisinfectionBox</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Strategy strategy;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DisinfectionBox</span><span class="params">(Strategy strategy)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.strategy = strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 消毒</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">disinfection</span><span class="params">(Milk milk)</span></span>&#123;</span><br><span class="line">        strategy.disinfection(milk);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 杀菌方法</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Strategy</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">disinfection</span><span class="params">(Milk milk)</span></span>&#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 巴士杀菌法</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasteurizationStrategy</span> <span class="keyword">implements</span> <span class="title">Strategy</span></span>&#123;</span><br><span class="line">    <span class="comment">// 巴氏杀菌</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">disinfection</span><span class="params">(Milk milk)</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MilkFactory</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">Milk <span class="title">get</span><span class="params">()</span></span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 采用巴氏消毒法杀菌</span></span><br><span class="line">        DisinfectionBox disinfectionBox = <span class="keyword">new</span> DisinfectionBox(<span class="keyword">new</span> PasteurizationStrategy());</span><br><span class="line">        disinfectionBox.disinfection(milk);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>待续</p>
+<h2 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h2><p>待续</p>
+<h2 id="迭代子模式"><a href="#迭代子模式" class="headerlink" title="迭代子模式"></a>迭代子模式</h2><p>待续</p>
+<h2 id="责任链模式"><a href="#责任链模式" class="headerlink" title="责任链模式"></a>责任链模式</h2><p>待续</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/28/spring-security-iframe/" rel="next" title="使用spring security后在页面中无法使用iframe的问题">
+                <i class="fa fa-chevron-left"></i> 使用spring security后在页面中无法使用iframe的问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Hu Zhengyu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/smile962464" title="GitHub &rarr; https://github.com/smile962464" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:2075904@gmail.com" title="E-Mail &rarr; mailto:2075904@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建型模式"><span class="nav-number">1.</span> <span class="nav-text">创建型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工厂模式"><span class="nav-number">1.1.</span> <span class="nav-text">工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象工厂模式"><span class="nav-number">1.2.</span> <span class="nav-text">抽象工厂模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单例模式"><span class="nav-number">1.3.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建造者模式"><span class="nav-number">1.4.</span> <span class="nav-text">建造者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原型模式"><span class="nav-number">1.5.</span> <span class="nav-text">原型模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结构型模式"><span class="nav-number">2.</span> <span class="nav-text">结构型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#适配器模式"><span class="nav-number">2.1.</span> <span class="nav-text">适配器模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类适配"><span class="nav-number">2.1.1.</span> <span class="nav-text">类适配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象适配"><span class="nav-number">2.1.2.</span> <span class="nav-text">对象适配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接口适配"><span class="nav-number">2.1.3.</span> <span class="nav-text">接口适配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#装饰模式"><span class="nav-number">2.2.</span> <span class="nav-text">装饰模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理模式"><span class="nav-number">2.3.</span> <span class="nav-text">代理模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#外观模式"><span class="nav-number">2.4.</span> <span class="nav-text">外观模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#行为型模式"><span class="nav-number">3.</span> <span class="nav-text">行为型模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#策略模式"><span class="nav-number">3.1.</span> <span class="nav-text">策略模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#观察者模式"><span class="nav-number">3.2.</span> <span class="nav-text">观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板方法模式"><span class="nav-number">3.3.</span> <span class="nav-text">模板方法模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迭代子模式"><span class="nav-number">3.4.</span> <span class="nav-text">迭代子模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#责任链模式"><span class="nav-number">3.5.</span> <span class="nav-text">责任链模式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hu Zhengyu</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+  
+  <script id="dsq-count-scr" src="https://smile962464.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://blog.yunwanjia.io/2019/03/14/java-design-pattern/";
+    this.page.identifier = "2019/03/14/java-design-pattern/";
+    this.page.title = '白话文解说java的几种常用设计模式';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://smile962464.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    loadComments();
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
